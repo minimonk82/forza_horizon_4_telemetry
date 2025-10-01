@@ -6,3 +6,6 @@ clean:
 
 run:
 	./forza 20777
+
+require:
+	sudo apt-get install libncurses5-dev
