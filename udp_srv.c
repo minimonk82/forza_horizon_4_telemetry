@@ -110,13 +110,21 @@ void parse_forza(unsigned char *message, int len)
 		mvprintw(row++, 0, "roll  %f -> %f", forza.Pitch, forza.Pitch * 180.0 / M_PI);
 		mvprintw(row++, 0, "pitch %f -> %f", forza.Roll , forza.Roll  * 180.0 / M_PI);
 
-		mvprintw(row++, 0, "CarOrdinal %5d", forza.CarOrdinal);
-		mvprintw(row++, 0, "CarClass %5d", forza.CarClass);
-		mvprintw(row++, 0, "CarPerformanceIndex %5d", forza.CarPerformanceIndex);
-		mvprintw(row++, 0, "DrivetrainType %5d", forza.DrivetrainType);
-		mvprintw(row++, 0, "NumCylinders %5d", forza.NumCylinders);
+		mvprintw(row++, 0, "NormalizedSuspensionTravelFrontLeft %f FrontRight %f",
+			forza.NormalizedSuspensionTravelFrontLeft * 100.0f,
+			forza.NormalizedSuspensionTravelFrontRight * 100.0f);
+		mvprintw(row++, 0, "NormalizedSuspensionTravelRearLeft %f RearRight %f",
+			forza.NormalizedSuspensionTravelRearLeft * 100.0f,
+			forza.NormalizedSuspensionTravelRearRight * 100.0f);
 
-		mvprintw(row++, 0, "clutch[%3d] brake[%3d] accel[%3d] handbrake[%3d] gear[%2d] Steer[%3d]"
+		mvprintw(row++, 0, "SuspensionTravelMetersFrontLeft %f FrontRight %f",
+			forza.SuspensionTravelMetersFrontLeft * 100.0f,
+			forza.SuspensionTravelMetersFrontRight * 100.0f);
+		mvprintw(row++, 0, "SuspensionTravelMetersRearLeft %f RearRight %f",
+			forza.SuspensionTravelMetersRearLeft * 100.0f,
+			forza.SuspensionTravelMetersRearRight * 100.0f);
+
+		mvprintw(row++, 0, "clutch[%3d] brake[%3d] accel[%3d] handbrake[%3d] gear[%2d] Steer[%4d]"
 		, forza.Clutch
 		, forza.Brake
 		, forza.Accel
@@ -125,19 +133,39 @@ void parse_forza(unsigned char *message, int len)
 		, forza.Steer
 		);
 
-		mvprintw(row++, 0, "Speed[%5.0f] Power[%7.0f] Torque[%5.0f] Boost[%5.0f] Fuel[%5.0f]"
-		, forza.Speed
-		, forza.Power
-		, forza.Torque
-		, forza.Boost
-		, forza.Fuel
-		);
+		mvprintw(row++, 0, "CarOrdinal %5d", forza.CarOrdinal);
+		mvprintw(row++, 0, "CarClass %5d", forza.CarClass);
+		mvprintw(row++, 0, "CarPerformanceIndex %5d", forza.CarPerformanceIndex);
+		mvprintw(row++, 0, "DrivetrainType %5d", forza.DrivetrainType);
+		mvprintw(row++, 0, "NumCylinders %5d", forza.NumCylinders);
 
 		mvprintw(row++, 0, "Position %f , %f , %f"
 		, forza.PositionX
 		, forza.PositionY
 		, forza.PositionZ
 		);
+
+		mvprintw(row++, 0, "Speed[%5.0f] Power[%7.0f] Torque[%5.1f] Boost[%5.1f] Fuel[%5.0f]"
+		, forza.Speed
+		, forza.Power / 1000.0f
+		, forza.Torque / 10.0f
+		, forza.Boost
+		, forza.Fuel
+		);
+
+		mvprintw(row++, 0, "TireTempFrontLeft %f FrontRight %f",
+			forza.TireTempFrontLeft,
+			forza.TireTempFrontRight);
+		mvprintw(row++, 0, "TireTempRearLeft %f RearRight %f",
+			forza.TireTempRearLeft,
+			forza.TireTempRearRight);
+
+		mvprintw(row++, 0, "TireWearFrontLeft %f FrontRight %f",
+			forza.TireWearFrontLeft,
+			forza.TireWearFrontRight);
+		mvprintw(row++, 0, "TireWearRearLeft %f RearRight %f",
+			forza.TireWearRearLeft,
+			forza.TireWearRearRight);
 #endif
 	}
 	else
