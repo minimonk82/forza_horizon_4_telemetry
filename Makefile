@@ -1,5 +1,5 @@
 all:
-	gcc udp_srv.c -l ncurses -o forza
+	gcc udp_srv.c -l ncurses -l m -o forza
 
 clean:
 	rm forza
