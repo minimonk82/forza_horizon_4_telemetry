@@ -92,20 +92,12 @@ void parse_forza(unsigned char *message, int len)
 #ifdef USE_NCURSES
 		mvprintw(row++, 0, "%3.3f ms : let's fly %d\n",ms ,pack_cnt++);
 
-		mvprintw(row++, 0, "RPM %.0f / %.0f", forza.CurrentEngineRpm, forza.EngineMaxRpm);
+		mvprintw(row++, 0, "RPM %.0f ~ %.0f ~ %.0f", forza.EngineIdleRpm, forza.CurrentEngineRpm, forza.EngineMaxRpm);
 
-		mvprintw(row++, 0, "acc X %f", forza.AccelerationX);
-		mvprintw(row++, 0, "acc Y %f", forza.AccelerationY);
-		mvprintw(row++, 0, "acc Z %f", forza.AccelerationZ);
+		mvprintw(row++, 0, "acc  X %f Y %f Z %f", forza.AccelerationX, forza.AccelerationY, forza.AccelerationZ);
+		mvprintw(row++, 0, "vel  X %f Y %f Z %f", forza.VelocityX, forza.VelocityY, forza.VelocityZ);
+		mvprintw(row++, 0, "avel X %f Y %f Z %f", forza.AngularVelocityX, forza.AngularVelocityY, forza.AngularVelocityZ);
 
-		mvprintw(row++, 0, "vel X %f", forza.VelocityX);
-		mvprintw(row++, 0, "vel Y %f", forza.VelocityY);
-		mvprintw(row++, 0, "vel Z %f", forza.VelocityZ);
-
-		mvprintw(row++, 0, "ang vel X %f", forza.AngularVelocityX);
-		mvprintw(row++, 0, "ang vel Y %f", forza.AngularVelocityY);
-		mvprintw(row++, 0, "ang vel Z %f", forza.AngularVelocityZ);
-		
 		mvprintw(row++, 0, "yaw   %f -> %f", forza.Yaw  , forza.Yaw   * 180.0 / M_PI);
 		mvprintw(row++, 0, "roll  %f -> %f", forza.Pitch, forza.Pitch * 180.0 / M_PI);
 		mvprintw(row++, 0, "pitch %f -> %f", forza.Roll , forza.Roll  * 180.0 / M_PI);
@@ -116,6 +108,55 @@ void parse_forza(unsigned char *message, int len)
 		mvprintw(row++, 0, "NormalizedSuspensionTravelRearLeft %f RearRight %f",
 			forza.NormalizedSuspensionTravelRearLeft * 100.0f,
 			forza.NormalizedSuspensionTravelRearRight * 100.0f);
+
+		mvprintw(row++, 0, "TireSlipRatioFrontLeft %f FrontRight %f",
+			forza.TireSlipRatioFrontLeft * 100.0f,
+			forza.TireSlipRatioFrontRight * 100.0f);
+		mvprintw(row++, 0, "TireSlipRatioRearLeft %f RearRight %f",
+			forza.TireSlipRatioRearLeft * 100.0f,
+			forza.TireSlipRatioRearRight * 100.0f);
+
+		mvprintw(row++, 0, "WheelRotationSpeedFrontLeft %f FrontRight %f",
+			forza.WheelRotationSpeedFrontLeft * 100.0f,
+			forza.WheelRotationSpeedFrontRight * 100.0f);
+		mvprintw(row++, 0, "WheelRotationSpeedRearLeft %f RearRight %f",
+			forza.WheelRotationSpeedRearLeft * 100.0f,
+			forza.WheelRotationSpeedRearRight * 100.0f);
+
+		mvprintw(row++, 0, "WheelOnRumbleStripFrontLeft %f FrontRight %f",
+			forza.WheelOnRumbleStripFrontLeft * 100.0f,
+			forza.WheelOnRumbleStripFrontRight * 100.0f);
+		mvprintw(row++, 0, "WheelOnRumbleStripRearLeft %f RearRight %f",
+			forza.WheelOnRumbleStripRearLeft * 100.0f,
+			forza.heelOnRumbleStripRearRight * 100.0f);
+
+		mvprintw(row++, 0, "WheelInPuddleDepthFrontLeft %f FrontRight %f",
+			forza.WheelInPuddleDepthFrontLeft * 100.0f,
+			forza.WheelInPuddleDepthFrontRight * 100.0f);
+		mvprintw(row++, 0, "WheelInPuddleDepthRearLeft %f RearRight %f",
+			forza.WheelInPuddleDepthRearLeft * 100.0f,
+			forza.WheelInPuddleDepthRearRight * 100.0f);
+
+		mvprintw(row++, 0, "SurfaceRumbleFrontLeft %f FrontRight %f",
+			forza.SurfaceRumbleFrontLeft * 100.0f,
+			forza.SurfaceRumbleFrontRight * 100.0f);
+		mvprintw(row++, 0, "SurfaceRumbleRearLeft %f RearRight %f",
+			forza.SurfaceRumbleRearLeft * 100.0f,
+			forza.SurfaceRumbleRearRight * 100.0f);
+
+		mvprintw(row++, 0, "TireSlipAngleFrontLeft %f FrontRight %f",
+			forza.TireSlipAngleFrontLeft * 100.0f,
+			forza.TireSlipAngleFrontRight * 100.0f);
+		mvprintw(row++, 0, "TireSlipAngleRearLeft %f RearRight %f",
+			forza.TireSlipAngleRearLeft * 100.0f,
+			forza.TireSlipAngleRearRight * 100.0f);
+
+		mvprintw(row++, 0, "TireCombinedSlipFrontLeft %f FrontRight %f",
+			forza.TireCombinedSlipFrontLeft * 100.0f,
+			forza.TireCombinedSlipFrontRight * 100.0f);
+		mvprintw(row++, 0, "TireCombinedSlipRearLeft %f RearRight %f",
+			forza.TireCombinedSlipRearLeft * 100.0f,
+			forza.TireCombinedSlipRearRight * 100.0f);
 
 		mvprintw(row++, 0, "SuspensionTravelMetersFrontLeft %f FrontRight %f",
 			forza.SuspensionTravelMetersFrontLeft * 100.0f,
@@ -133,11 +174,8 @@ void parse_forza(unsigned char *message, int len)
 		, forza.Steer
 		);
 
-		mvprintw(row++, 0, "CarOrdinal %5d", forza.CarOrdinal);
-		mvprintw(row++, 0, "CarClass %5d", forza.CarClass);
-		mvprintw(row++, 0, "CarPerformanceIndex %5d", forza.CarPerformanceIndex);
-		mvprintw(row++, 0, "DrivetrainType %5d", forza.DrivetrainType);
-		mvprintw(row++, 0, "NumCylinders %5d", forza.NumCylinders);
+		mvprintw(row++, 0, "CarOrdinal %5d CarClass %5d CarPerformanceIndex %5d DrivetrainType %5d NumCylinders %5d",
+			forza.CarOrdinal, forza.CarClass, forza.CarPerformanceIndex, forza.DrivetrainType, forza.NumCylinders);
 
 		mvprintw(row++, 0, "Position %f , %f , %f"
 		, forza.PositionX
