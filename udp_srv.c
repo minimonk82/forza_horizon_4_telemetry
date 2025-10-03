@@ -104,7 +104,39 @@ void parse_forza(unsigned char *message, int len)
 	}
 
 #ifdef USE_NCURSES
+	char drvtype[4][3] =
+	{
+		"FWD",
+		"RWD",
+		"AWD"
+	};
+	mvprintw(row++, 0, "CarOrdinal %5d CarClass %5d CarPerformanceIndex %5d DrivetrainType %4s NumCylinders %5d",
+		forza.CarOrdinal, forza.CarClass, forza.CarPerformanceIndex, drvtype[forza.DrivetrainType], forza.NumCylinders);
+
+	mvprintw(row++, 0, "Position %10.5f , %10.5f , %10.5f"
+	, forza.PositionX
+	, forza.PositionY
+	, forza.PositionZ
+	);
+
+	mvprintw(row++, 0, "Speed[%6.2f km/h] Power[%7.2f ps] Torque[%5.1f kg.m] Boost[%6.2f] Fuel[%7.2f]"
+	, forza.Speed * 3.6 // m/s-> km/h
+	, forza.Power / 1000.0f / 0.735 // watt -> kw -> hp
+	, forza.Torque / 10.0f
+	, forza.Boost
+	, forza.Fuel * 100
+	);
+
 	mvprintw(row++, 0, "RPM %5.0f ~ %5.0f ~ %5.0f", forza.EngineIdleRpm, forza.CurrentEngineRpm, forza.EngineMaxRpm);
+
+	mvprintw(row++, 0, "clutch[%3d] brake[%3d] accel[%3d] handbrake[%3d] gear[%2d] Steer[%4d]"
+	, forza.Clutch
+	, forza.Brake
+	, forza.Accel
+	, forza.HandBrake
+	, forza.Gear
+	, forza.Steer
+	);
 
 	mvprintw(row++, 0, "acc  X %10.5f Y %10.5f Z %10.5f", forza.AccelerationX / GRAVITY, forza.AccelerationY / GRAVITY, forza.AccelerationZ / GRAVITY);
 	// mvprintw(row++, 0, "acc  X %10.5f Y %10.5f Z %10.5f", forza.AccelerationX / GRAVITY, forza.AccelerationY / GRAVITY, forza.AccelerationZ / GRAVITY);
@@ -122,12 +154,13 @@ void parse_forza(unsigned char *message, int len)
 		forza.NormalizedSuspensionTravelRearLeft * 100.0f,
 		forza.NormalizedSuspensionTravelRearRight * 100.0f);
 
-	mvprintw(row++, 0, "TireSlipRatioFrontLeft %6.1f FrontRight %6.1f",
-		forza.TireSlipRatioFrontLeft * 100.0f,
-		forza.TireSlipRatioFrontRight * 100.0f);
-	mvprintw(row++, 0, "TireSlipRatioRearLeft %6.1f RearRight %6.1f",
-		forza.TireSlipRatioRearLeft * 100.0f,
-		forza.TireSlipRatioRearRight * 100.0f);
+	mvprintw(row++, 0, "SuspensionTravelMetersFrontLeft %6.1f cm FrontRight %6.1f cm",
+		forza.SuspensionTravelMetersFrontLeft * 1000.0f,
+		forza.SuspensionTravelMetersFrontRight * 1000.0f);
+	mvprintw(row++, 0, "SuspensionTravelMetersRearLeft %6.1f cm RearRight %6.1f cm",
+		forza.SuspensionTravelMetersRearLeft * 1000.0f,
+		forza.SuspensionTravelMetersRearRight * 1000.0f);
+
 
 	mvprintw(row++, 0, "WheelRotationSpeedFrontLeft %5.1f FrontRight %5.1f",
 		forza.WheelRotationSpeedFrontLeft * 180.0 / M_PI,
@@ -157,6 +190,14 @@ void parse_forza(unsigned char *message, int len)
 		forza.SurfaceRumbleRearLeft * 100.0f,
 		forza.SurfaceRumbleRearRight * 100.0f);
 
+
+	mvprintw(row++, 0, "TireSlipRatioFrontLeft %6.1f FrontRight %6.1f",
+		forza.TireSlipRatioFrontLeft * 100.0f,
+		forza.TireSlipRatioFrontRight * 100.0f);
+	mvprintw(row++, 0, "TireSlipRatioRearLeft %6.1f RearRight %6.1f",
+		forza.TireSlipRatioRearLeft * 100.0f,
+		forza.TireSlipRatioRearRight * 100.0f);
+
 	mvprintw(row++, 0, "TireSlipAngleFrontLeft %5.1f FrontRight %5.1f",
 		forza.TireSlipAngleFrontLeft * 100.0f,
 		forza.TireSlipAngleFrontRight * 100.0f);
@@ -170,45 +211,6 @@ void parse_forza(unsigned char *message, int len)
 	mvprintw(row++, 0, "TireCombinedSlipRearLeft %5.1f RearRight %5.1f",
 		forza.TireCombinedSlipRearLeft * 100.0f,
 		forza.TireCombinedSlipRearRight * 100.0f);
-
-	mvprintw(row++, 0, "SuspensionTravelMetersFrontLeft %6.1f cm FrontRight %6.1f cm",
-		forza.SuspensionTravelMetersFrontLeft * 1000.0f,
-		forza.SuspensionTravelMetersFrontRight * 1000.0f);
-	mvprintw(row++, 0, "SuspensionTravelMetersRearLeft %6.1f cm RearRight %6.1f cm",
-		forza.SuspensionTravelMetersRearLeft * 1000.0f,
-		forza.SuspensionTravelMetersRearRight * 1000.0f);
-
-	mvprintw(row++, 0, "clutch[%3d] brake[%3d] accel[%3d] handbrake[%3d] gear[%2d] Steer[%4d]"
-	, forza.Clutch
-	, forza.Brake
-	, forza.Accel
-	, forza.HandBrake
-	, forza.Gear
-	, forza.Steer
-	);
-
-	char drvtype[4][3] =
-	{
-		"FWD",
-		"RWD",
-		"AWD"
-	};
-	mvprintw(row++, 0, "CarOrdinal %5d CarClass %5d CarPerformanceIndex %5d DrivetrainType %4s NumCylinders %5d",
-		forza.CarOrdinal, forza.CarClass, forza.CarPerformanceIndex, drvtype[forza.DrivetrainType], forza.NumCylinders);
-
-	mvprintw(row++, 0, "Position %10.5f , %10.5f , %10.5f"
-	, forza.PositionX
-	, forza.PositionY
-	, forza.PositionZ
-	);
-
-	mvprintw(row++, 0, "Speed[%6.2f km/h] Power[%7.2f ps] Torque[%5.1f kg.m] Boost[%6.2f] Fuel[%7.2f]"
-	, forza.Speed * 3.6 // m/s-> km/h
-	, forza.Power / 1000.0f / 0.735 // watt -> kw -> hp
-	, forza.Torque / 10.0f
-	, forza.Boost
-	, forza.Fuel * 100
-	);
 
 	// fahrenheit to celsius
 	mvprintw(row++, 0, "TireTempFrontLeft %4.1f FrontRight %4.1f",
